@@ -1,5 +1,10 @@
 <template>
   <v-container>
+    <!-- Botão para alternar entre tema claro e escuro -->
+    <v-btn @click="toggleDarkMode" color="primary" class="mb-4">
+      Alternar Tema
+    </v-btn>
+
     <!-- Modal para editar produto -->
     <v-dialog v-model="dialog" max-width="500px">
       <v-card>
@@ -106,6 +111,16 @@ export default {
     deleteProduct(productId) {
       this.$emit('delete-product', productId); // Emite o evento de exclusão
     },
+
+    // Alterna entre tema escuro e claro
+    toggleDarkMode() {
+      const currentTheme = this.$vuetify.theme.dark;
+      this.$vuetify.theme.dark = !currentTheme; // Alterna o valor do tema
+    },
   },
 };
 </script>
+
+<style scoped>
+/* Estilo adicional pode ser adicionado aqui se necessário */
+</style>
