@@ -70,23 +70,21 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   name: 'ProductList',
   props: {
-    products: Array, // Não vamos mais alterar esta prop diretamente
+    products: Array, // Lista de produtos recebida do componente pai
   },
   data() {
     return {
-      dialog: false, // Para controlar a exibição do modal
+      dialog: false, // Controle do modal
       editedProduct: {}, // Produto a ser editado
-      valid: false, // Para validar o formulário
-      localProducts: [...this.products], // Criar uma cópia local dos produtos
+      valid: false, // Validação do formulário
+      localProducts: [...this.products], // Copia local da lista de produtos
     };
   },
   watch: {
-    // Quando a prop 'products' for alterada, atualize a lista local
+    // Atualiza a lista local quando a prop 'products' mudar
     products(newProducts) {
       this.localProducts = [...newProducts];
     }
@@ -94,38 +92,19 @@ export default {
   methods: {
     // Abre o modal de edição e preenche os campos com os dados do produto
     editProduct(product) {
-      this.editedProduct = { ...product }; // Cria uma cópia do produto para edição
+      this.editedProduct = { ...product }; // Cria uma cópia do produto
       this.dialog = true; // Abre o modal
     },
 
-    // Atualiza o produto no banco de dados
-    async updateProduct() {
-      try {
-        const response = await axios.put(`http://localhost:3000/produtos/${this.editedProduct.id}`, {
-          nome: this.editedProduct.nome,
-          descricao: this.editedProduct.descricao,
-          quantidade: this.editedProduct.quantidade,
-        });
-
-        console.log('Produto atualizado com sucesso:', response.data);
-
-        // Atualiza a lista de produtos local no frontend
-
-
-        const index = this.localProducts.findIndex(product => product.id === this.editedProduct.id);
-        if (index !== -1) {
-          // Substitui o produto atualizado na lista
-          this.localProducts[index] = response.data.product || response.data;
-        }
-        this.dialog = false; // Fecha o modal após atualização
-      } catch (error) {
-        console.error('Erro ao atualizar o produto:', error);
-      }
+    // Emite o evento para o componente pai para atualizar o produto
+    updateProduct() {
+      this.$emit('update-product', this.editedProduct); // Emite o evento
+      this.dialog = false; // Fecha o modal
     },
 
-    // Função para excluir produto
+    // Emite o evento de exclusão para o componente pai
     deleteProduct(productId) {
-      this.$emit('delete-product', productId); // Emite o evento de exclusão para o componente pai
+      this.$emit('delete-product', productId); // Emite o evento de exclusão
     },
   },
 };

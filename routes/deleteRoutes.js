@@ -17,7 +17,7 @@ router.delete('/api/produtos/:id', async (req, res) => {
 
     // Exclui o produto
     await product.destroy();
-
+console.log("produto deletado");
     // Responde com uma mensagem de sucesso
     res.json({ message: 'Produto excluído com sucesso' });
   } catch (error) {

@@ -7,6 +7,7 @@
       <v-col cols="12" md="6">
         <product-list 
           :products="products" 
+          @update-product="handleUpdateProduct"
           @delete-product="handleDeleteProduct"
         />
       </v-col>
@@ -27,11 +28,11 @@ export default {
   },
   data() {
     return {
-      products: [], // Armazena os produtos
+      products: [], // Lista de produtos
     };
   },
   methods: {
-    // Método para buscar produtos
+    // Busca os produtos da API
     async fetchProducts() {
       try {
         const response = await api.get('/api/produtos');
@@ -40,13 +41,29 @@ export default {
         console.error('Erro ao buscar produtos:', error);
       }
     },
+    
+    // Método para atualizar o produto no backend e atualizar a lista local
+    async handleUpdateProduct(updatedProduct) {
+      try {
+        const response = await api.put(`/api/produtos/${updatedProduct.id}`, updatedProduct);
+        
+        // Atualiza o produto na lista local
+        const index = this.products.findIndex(product => product.id === updatedProduct.id);
+        if (index !== -1) {
+          // Atualiza os dados localmente com a resposta do servidor
+          this.products.splice(index, 1, response.data.product || response.data);
+        }
+      } catch (error) {
+        console.error('Erro ao atualizar o produto:', error);
+      }
+    },
+
     // Método para excluir o produto
     async handleDeleteProduct(productId) {
       try {
-        // Chamada para API para excluir o produto no backend
         await api.delete(`/api/produtos/${productId}`);
         
-        // Atualiza a lista local removendo o produto excluído
+        // Remove o produto da lista local
         this.products = this.products.filter(product => product.id !== productId);
       } catch (error) {
         console.error('Erro ao excluir o produto:', error);
@@ -54,7 +71,7 @@ export default {
     },
   },
   created() {
-    this.fetchProducts(); // Carrega os produtos quando o componente é criado
+    this.fetchProducts(); // Carrega os produtos ao criar o componente
   },
 };
 </script>

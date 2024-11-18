@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const authMiddleware = (req, res, next) => {
+  // Extrair o token do cabeçalho 'Authorization', retirando o 'Bearer '.
   const token = req.headers['authorization']?.replace('Bearer ', '');
   console.log("Token recebido:", token);  // Log para verificar o token
 
@@ -18,7 +19,5 @@ const authMiddleware = (req, res, next) => {
     next();
   });
 };
-
-
 
 module.exports = authMiddleware;

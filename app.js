@@ -5,7 +5,7 @@ const cors = require('cors'); // Importe o CORS
 const sequelize = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
-const editRoutes = require('./routes/deleteRoutes');
+//const editRoutes = require('./routes/deleteRoutes');
 const movementRoutes = require('./routes/movementRoutes');
 const authMiddleware = require('./middleware/authMiddleware'); // Corrija o caminho se necessário
 const authRoutes = require('./routes/authRoutes'); // Importe a rota de autenticação
@@ -26,9 +26,9 @@ app.use('/api/auth', authRoutes); // Deixe esta rota para login
 app.use('/api/users', userRoutes);  // Criação de usuário deve ser em '/api/users'
 
 // Rotas protegidas (com middleware de autenticação)
-app.use('/api/produtos', authMiddleware, productRoutes);
+app.use('/api/produtos', productRoutes);
 app.use('/api/movimentacoes', authMiddleware, movementRoutes);
-app.use('/api/delete', authMiddleware, editRoutes);
+//app.use('/api/delete', authMiddleware, editRoutes);
 
 // Rota de Logout
 app.post('/api/auth/logout', (req, res) => {
