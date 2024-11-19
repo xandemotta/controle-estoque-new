@@ -84,7 +84,7 @@ export default {
 <style scoped>
 .login-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  background: linear-gradient(135deg, #111, #111);
   display: flex;
   align-items: center;
   justify-content: center;

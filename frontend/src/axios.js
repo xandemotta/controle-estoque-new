@@ -26,7 +26,7 @@ api.interceptors.response.use(
       // Token expirado ou não autorizado, pode redirecionar para login
       console.log('Token expirado ou não autorizado. Redirecionando para login...');
       // Aqui você pode adicionar o redirecionamento para a tela de login
-      // Exemplo: this.$router.push('/login');
+      this.$router.push('/login');
     }
     return Promise.reject(error);
   }

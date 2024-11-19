@@ -1,6 +1,7 @@
 // app.js
 const express = require('express');
 require('dotenv').config();
+console.log("JWT Secret:", process.env.JWT_SECRET); // Deve mostrar "seu_segredo_jwt"
 const cors = require('cors'); // Importe o CORS
 const sequelize = require('./config/db');
 const userRoutes = require('./routes/userRoutes');

@@ -33,11 +33,17 @@ const login = async (req, res) => {
       if (!senhaValida) return res.status(400).json({ message: 'Senha incorreta' });
   
       // Gerando o token JWT
-      const token = jwt.sign(
-        { id: usuario.id, nivelAcesso: usuario.nivelAcesso }, 
-        process.env.JWT_SECRET, 
-        { expiresIn: '1h' } // O token expira em 1 hora
-      );
+     const token = jwt.sign(
+  { id: usuario.id, nivelAcesso: usuario.nivelAcesso },
+  process.env.JWT_SECRET,
+  { expiresIn: '3s' }
+);
+
+const decodedToken = jwt.decode(token);
+console.log("Expiração do Token (timestamp):", decodedToken.exp); // Expiração em 3 segundos
+
+      console.log("Token gerado:", token);  // Verifique o token e sua data de expiração
+      
       
       res.status(200).json({ token });
     } catch (err) {
